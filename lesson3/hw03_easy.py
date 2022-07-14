@@ -15,8 +15,14 @@
 
 fruits = ["яблоко", "банан", "киви", "арбуз"]
 
+max_len = 0
+
+for i in fruits:
+    if len(i) > max_len:
+        max_len = len(i)
+
 for fruit in fruits:
-    print("{}. {:>6}".format(fruits.index(fruit) + 1, fruit))
+    print("{}. {:>{}}".format(fruits.index(fruit) + 1, fruit, max_len))
 
 # Задача-2:
 # Даны два произвольные списка.
