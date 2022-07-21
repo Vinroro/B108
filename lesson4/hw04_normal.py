@@ -4,15 +4,11 @@
 
 def fibonacci(n, m):
     fibonacci_list = [1, 1]
-    result_list = []
 
     for i in range(m):
         fibonacci_list.append(fibonacci_list[i] + fibonacci_list[i + 1])
 
-    for i in range(m - n):
-        result_list.append(fibonacci_list[n + i])
-
-    return result_list
+    return fibonacci_list[n:]
 
 print(fibonacci(0, 10))
 
@@ -39,7 +35,7 @@ print(sort_to_max([2, 10, -12, 2.5, 20, -11, 4, 4, 0]))
 def check_for_filter(i):
     return i > 0
 
-def my_filter(filter, list):
+def my_filter_realisation(filter, list):
     result_list = []
 
     for i in list:
@@ -48,7 +44,7 @@ def my_filter(filter, list):
 
     return result_list
 
-print(my_filter(check_for_filter, [-1, 0, 1]))
+print(my_filter_realisation(check_for_filter, [-1, 0, 1]))
 
 # Задача-4:
 # Даны четыре точки А1(х1, у1), А2(x2 ,у2), А3(x3 , у3), А4(х4, у4).
