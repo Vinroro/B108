@@ -18,63 +18,76 @@
 
 all_classes = []
 
-class Class_of_students:
+
+class ClassOfStudents:
     def __init__(self, number, letter):
-        self.number = number
-        self.letter = letter.upper()
+        self.__number = number
+        self.__letter = letter.upper()
         self.students_list = []
         self.teachers_list = {}
 
         try:
-            if 0 < self.number < 12 and self.letter in "АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ":
-                all_classes.append(str(self.number) + self.letter)
-                print(f"Создан класс {self.number}{self.letter}")
+            if 0 < self.__number < 12 and self.__letter in "АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЩЭЮЯ":
+                all_classes.append(str(self.__number) + self.__letter)
+                print(f"Создан класс {self.__number}{self.__letter}")
             else:
                 print("Некорректные вводные для создания учебного класса")
         except TypeError:
             print("Некорректные вводные для создания учебного класса")
 
     def add_student(self, student):
-        self.students_list.append(student.fio)
-        print(f"Ученик {student.fio} добавлен в учебный класс {self.number}{self.letter}")
+        self.students_list.append(student.get_fio())
+        print(f"Ученик {student.get_fio()} добавлен в учебный класс {self.__number}{self.__letter}")
 
     def add_teacher(self, teacher):
         if teacher.subject not in self.teachers_list:
-            self.teachers_list[teacher.subject] = teacher.fio
-            print(f"Теперь в классе {self.number}{self.letter} предмет {teacher.subject} преподаёт {teacher.fio}")
+            self.teachers_list[teacher.subject] = teacher.get_fio()
+            print(f"Теперь в классе {self.__number}{self.__letter} предмет {teacher.subject}"
+                  f" преподаёт {teacher.get_fio()}")
         else:
-            self.teachers_list[teacher.subject] = teacher.fio
-            print(f"Произошла замена. Теперь в классе {self.number}{self.letter} предмет {teacher.subject} преподаёт {teacher.fio}")
+            self.teachers_list[teacher.subject] = teacher.get_fio()
+            print(f"Произошла замена. Теперь в классе {self.__number}{self.__letter} предмет {teacher.subject}"
+                  f" преподаёт {teacher.get_fio()}")
+
+    def get_class_name(self):
+        return f"{self.__number}{self.__letter}"
+
 
 class Person:
     def __init__(self, surname, name, patronymic):
-        self.surname = surname.upper()[0] + surname[1:]
-        self.name = name.upper()[0] + name[1:]
-        self.patronymic = patronymic.upper()[0] + patronymic[1:]
-        self.fio = self.surname + " " + self.name[0] + "." + self.patronymic[0] + "."
+        self.__surname = surname.capitalize()
+        self.__name = name.capitalize()
+        self.__patronymic = patronymic.capitalize()
+
+    def get_fio(self):
+        return self.__surname + " " + self.__name[0] + "." + self.__patronymic[0] + "."
+
 
 class Student(Person):
     def __init__(self, surname, name, patronymic, class_of_students, mother, father):
         super().__init__(surname, name, patronymic)
         self.class_of_students = class_of_students
-        self.parents = (mother.fio, father.fio)
+        self.parents = (mother.get_fio(), father.get_fio())
 
     def get_subjects(self):
         return [subject for subject in self.class_of_students.teachers_list.keys()]
 
+
 class Parent(Person):
     def __init__(self, surname, name, patronymic):
         super().__init__(surname, name, patronymic)
+
 
 class Teacher(Person):
     def __init__(self, surname, name, patronymic, subject):
         super().__init__(surname, name, patronymic)
         self.subject = subject
 
-new_class = Class_of_students(1, "А")
-new_class1 = Class_of_students(4, "Б")
-new_class2 = Class_of_students(12, "А")
-new_class3 = Class_of_students(1, "Ы")
+
+new_class = ClassOfStudents(1, "А")
+new_class1 = ClassOfStudents(4, "Б")
+new_class2 = ClassOfStudents(12, "А")
+new_class3 = ClassOfStudents(1, "Ы")
 
 parent = Parent("Виноградова", "Юлия", "Ивановна")
 parent1 = Parent("Виноградов", "Геннадий", "Юрьевич")
@@ -102,11 +115,11 @@ print()
 print(f"Полный список всех классов школы: {all_classes}")
 # 2. Получить список всех учеников в указанном классе
 #  (каждый ученик отображается в формате "Фамилия И.О.")
-print(f"Список всех учеников в классе {new_class1.number}{new_class1.letter}: {new_class1.students_list}")
+print(f"Список всех учеников в классе {new_class1.get_class_name()}: {new_class1.students_list}")
 # 3. Получить список всех предметов указанного ученика
 #  (Ученик --> Класс --> Учителя --> Предметы)
-print(f"Список всех предметов ученика {student.fio}: {student.get_subjects()}")
+print(f"Список всех предметов ученика {student.get_fio()}: {student.get_subjects()}")
 # 4. Узнать ФИО родителей указанного ученика
-print(f"ФИО родителей ученика {student.fio}: {student.parents}")
+print(f"ФИО родителей ученика {student.get_fio()}: {student.parents}")
 # 5. Получить список всех Учителей, преподающих в указанном классе
-print(f"Список всех учителей класса {new_class1.number}{new_class1.letter}: {new_class1.teachers_list}")
+print(f"Список всех учителей класса {new_class1.get_class_name()}: {new_class1.teachers_list}")
