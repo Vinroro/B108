@@ -61,14 +61,14 @@
 import random
 
 
-barrel_pocket = [i for i in range(1, 91)]
+barrel_pocket = [i for i in range(1, 31)]
 numbers_in_game = barrel_pocket.copy()
 
 
 class GameCard:
     def __init__(self, whose_card):
         self.whose_card = f" Карточка {whose_card} "
-
+        self.numbers_count = 15
         self.numbers_in_card = []
 
         while len(self.numbers_in_card) != 15:
@@ -119,28 +119,20 @@ class GameCard:
     def cross_the_number(self, number):
         if number in self.card_fields_values:
             self.card_fields_values[self.card_fields_values.index(number)] = " -"
+            self.numbers_count -= 1
             return True
-        else:
-            return False
+        return False
 
     def pass_the_number(self, number):
-        if number in self.card_fields_values:
-            return False
-        else:
-            return True
+        return number not in self.card_fields_values
 
     def computer_choice(self, number):
         if number in self.card_fields_values:
             self.card_fields_values[self.card_fields_values.index(number)] = " -"
+            self.numbers_count -= 1
 
     def numbers_in_card_check(self):
-        int_count = 0
-
-        for i in self.card_fields_values:
-            if i != "  " and i != " -":
-                int_count += 1
-
-        return int_count != 0
+        return self.numbers_count != 0
 
 
 game_card1 = GameCard("Игрока")
